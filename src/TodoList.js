@@ -14,11 +14,12 @@ class TodoList extends Component {
 // initalize state
     this.state = {
       items: []
-    };
+    }; // this.state
 
 // add binding
     this.addItem = this.addItem.bind(this);
-  }
+    this.deleteItem = this.deleteItem.bind(this);
+  } // constructor
 
   addItem(e) {
 
@@ -27,30 +28,45 @@ class TodoList extends Component {
       var newItem = {
         text: this._inputElement.value,
         key: Date.now()
-      };
+      }; // newItem
 
 // add newItem to state
 //
       this.setState((prevState) => {
         return {
           items: prevState.items.concat(newItem)
-        };
-      });
+        }; // return
+      }); // setState
 
 //  clear out input
 //
       this._inputElement.value = "";
-    }
+    } // if
 
     console.log(this.state.items);
 
 //  Keep page from reloading
 //
     e.preventDefault();
-  }
+  }  // addItem
+
+
+// deleteItem added to ... delete an item
+  deleteItem(key) {
+// filteredItems is item list with the key item excluded
+    var filteredItems = this.state.items.filter(function (item) {
+      return (item.key !== key);
+    });  // var filteredItems
+
+    // updates items
+    this.setState({
+      items: filteredItems
+    }); // setState
+  } // deleteItem
 
 
 //  add ref to input to access DOM
+// Add prop to TodoItems called delete
 //
   render() {
     return (
@@ -63,10 +79,11 @@ class TodoList extends Component {
             <button type="submit">add</button>
           </form>
         </div>
-        <TodoItems entries={this.state.items}/>
+        <TodoItems entries={this.state.items}
+                   delete={this.deleteItem}/>
       </div>
-    );
-  }
-}
+    ); // return
+  } // render
+} // TodoList
 
 export default TodoList;
